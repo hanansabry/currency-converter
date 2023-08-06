@@ -24,8 +24,22 @@ interface FixerApiService {
     @GET("symbols")
     suspend fun getSymbols(@Query("access_key") apiKey: String): SymbolResponse
 
+    @GET("convert")
+    suspend fun convert(
+        @Query("access_key") apiKey: String,
+        @Query("from") from: String,
+        @Query("to") to: String,
+        @Query("amount ") amount: Double
+    ): ConvertResponse
+
+    @GET("latest")
+    suspend fun getConvertRate(
+        @Query("access_key") apiKey: String,
+        @Query("symbols") from: String
+    ): ConvertResponse
+
 }
 
 object FixerApi {
-    val retrofitService : FixerApiService by lazy { retrofit.create(FixerApiService::class.java) }
+    val retrofitService: FixerApiService by lazy { retrofit.create(FixerApiService::class.java) }
 }

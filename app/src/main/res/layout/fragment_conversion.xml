@@ -11,66 +11,107 @@
             type="com.test.currencyconverter.presentation.SymbolsViewModel" />
     </data>
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="16dp"
-            android:weightSum="6"
-            android:orientation="horizontal">
+            android:layout_alignParentStart="true"
+            android:layout_toStartOf="@id/switch_button"
+            android:orientation="vertical">
 
-            <androidx.appcompat.widget.AppCompatSpinner
-                android:id="@+id/from"
-                android:layout_width="0dp"
-                android:layout_weight="2.5"
-                android:layout_height="60dp"
-                android:selectedItemPosition="@{viewModel.selectedFromItem}"
-                android:adapter="@{viewModel.symbolsAdapter}"/>
-
-            <ImageButton
-                android:layout_width="0dp"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="8dp"
-                android:layout_weight="1"
-                android:background="@color/design_default_color_secondary"
-                android:src="@android:drawable/ic_menu_rotate"
-                android:onClick="@{(v) -> fragment.onSwitchSymbolsClicked(v)}"
-                app:tint="@color/white" />
+                android:layout_margin="16dp"
+                android:background="@drawable/stroke_cornered_bg"
+                android:orientation="horizontal"
+                android:weightSum="2">
 
-            <androidx.appcompat.widget.AppCompatSpinner
-                android:id="@+id/to"
-                android:layout_width="0dp"
-                android:layout_height="60dp"
-                android:layout_weight="2.5"
-                android:selectedItemPosition="@{viewModel.selectedToItem}"
-                android:adapter="@{viewModel.symbolsAdapter}"/>
+                <EditText
+                    android:id="@+id/from_value"
+                    android:layout_width="0dp"
+                    android:layout_height="50dp"
+                    android:layout_weight="1"
+                    android:layout_gravity="center"
+                    android:background="@android:color/transparent"
+                    android:inputType="numberDecimal"
+                    android:padding="16dp"
+                    android:text="1"
+                    android:textColor="@color/dark_gray" />
+
+                <View
+                    android:layout_width="1dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="8dp"
+                    android:background="@color/transparent_gray" />
+
+                <androidx.appcompat.widget.AppCompatSpinner
+                    android:id="@+id/from"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="60dp"
+                    android:selectedItemPosition="@{viewModel.selectedFromItem}"
+                    android:adapter="@{viewModel.symbolsAdapter}"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:background="@drawable/stroke_cornered_bg"
+                android:orientation="horizontal"
+                android:weightSum="2">
+
+                <EditText
+                    android:id="@+id/to_value"
+                    android:layout_width="0dp"
+                    android:layout_height="50dp"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:background="@android:color/transparent"
+                    android:inputType="numberDecimal"
+                    android:padding="16dp"
+                    android:text="1"
+                    android:textColor="@color/dark_gray" />
+
+                <View
+                    android:layout_width="1dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="8dp"
+                    android:background="@color/transparent_gray" />
+
+                <androidx.appcompat.widget.AppCompatSpinner
+                    android:id="@+id/to"
+                    android:layout_width="0dp"
+                    android:layout_height="60dp"
+                    android:layout_weight="1"
+                    android:selectedItemPosition="@{viewModel.selectedToItem}"
+                    android:adapter="@{viewModel.symbolsAdapter}"/>
+
+            </LinearLayout>
 
         </LinearLayout>
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="16dp">
+        <ImageButton
+            android:id="@+id/switch_button"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_alignParentEnd="true"
+            android:layout_margin="16dp"
+            android:background="@null"
+            android:onClick="@{(v) -> fragment.onSwitchSymbolsClicked(v)}"
+            android:scaleType="centerCrop"
+            android:src="@android:drawable/ic_menu_rotate"
+            app:tint="@color/design_default_color_secondary" />
 
-            <EditText
-                android:layout_width="120dp"
-                android:layout_height="60dp"
-                android:layout_alignParentStart="true"
-                android:text="1"
-                android:gravity="center"
-                android:inputType="numberDecimal"/>
+    </RelativeLayout>
 
-            <EditText
-                android:layout_width="120dp"
-                android:layout_height="60dp"
-                android:layout_alignParentEnd="true"
-                android:gravity="center"
-                android:inputType="numberDecimal"/>
-        </RelativeLayout>
-
-    </LinearLayout>
 </layout>
