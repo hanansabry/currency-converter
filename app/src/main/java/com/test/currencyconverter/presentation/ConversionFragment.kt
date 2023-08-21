@@ -11,6 +11,7 @@ import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import com.test.currencyconverter.databinding.FragmentConversionBinding
 
 
@@ -77,11 +78,13 @@ class ConversionFragment : Fragment() {
             }
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                val from = adapter.getItem(viewModel.selectedFromItem.value!!)
-                val to = adapter.getItem(viewModel.selectedToItem.value!!)
-                viewModel.convert(
-                    "$from,$to"
-                )
+                if (count > 0) {
+                    val from = adapter.getItem(viewModel.selectedFromItem.value!!)
+                    val to = adapter.getItem(viewModel.selectedToItem.value!!)
+                    viewModel.convert(
+                        "$from,$to"
+                    )
+                }
             }
 
             override fun afterTextChanged(s: Editable?) {
@@ -101,7 +104,7 @@ class ConversionFragment : Fragment() {
             viewModel.setEmitDirectly(false)
             isSwitching = true
             viewModel.setSelectedToItem(43)
-            viewModel.setSelectedFromItem(150)
+            viewModel.setSelectedFromItem(0)
         }
 
         viewModel.convertResult.observe(this) {
@@ -126,14 +129,15 @@ class ConversionFragment : Fragment() {
             }
         }
 
-        viewModel.getCombinedResult().observe(this) {
-            //convert current value
-            val from = adapter.getItem(it.first)
-            val to = adapter.getItem(it.second)
-            viewModel.convert(
-                "$from,$to"
-            )
-        }
+        //TODO: comment this temporarly to not convert every time
+//        viewModel.getCombinedResult().observe(this) {
+//            //convert current value
+//            val from = adapter.getItem(it.first)
+//            val to = adapter.getItem(it.second)
+//            viewModel.convert(
+//                "$from,$to"
+//            )
+//        }
 
         viewModel.error.observe(this) {
             Toast.makeText(context, it, Toast.LENGTH_LONG).show()
@@ -149,5 +153,9 @@ class ConversionFragment : Fragment() {
         viewModel.setEmitDirectly(false)
         viewModel.setSelectedFromItem(selectedTo)
         viewModel.setSelectedToItem(selectedFrom)
+    }
+
+    fun onDetailsClicked(v: View) {
+        this.findNavController().navigate(ConversionFragmentDirections.actionConversionFragmentToDetailsFragment());
     }
 }

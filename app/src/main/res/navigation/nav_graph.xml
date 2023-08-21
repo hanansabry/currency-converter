@@ -25,5 +25,13 @@
     <fragment
         android:id="@+id/conversionFragment"
         android:name="com.test.currencyconverter.presentation.ConversionFragment"
-        android:label="ConversionFragment" />
+        android:label="ConversionFragment" >
+        <action
+            android:id="@+id/action_conversionFragment_to_detailsFragment"
+            app:destination="@id/detailsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/detailsFragment"
+        android:name="com.test.currencyconverter.presentation.DetailsFragment"
+        android:label="DetailsFragment" />
 </navigation>
