@@ -32,11 +32,6 @@ class SymbolsViewModel : ViewModel() {
     val convertResult: LiveData<Map<String, Double>?>
         get() = _convertResult
 
-    private val _navigateToDetails = MutableLiveData<Void>()
-
-    val navigateToDetails: LiveData<Void>
-        get() = _navigateToDetails
-
     private var isForEmitted = false
     private var isToEmitted = false
     private var emitDirectly = false;
@@ -124,11 +119,4 @@ class SymbolsViewModel : ViewModel() {
         _selectedFromItem.value = selectedTo
     }
 
-//    fun displayDetails() {
-//        _navigateToSelectedProperty.value = marsProperty
-//    }
-//
-//    fun displayPropertyDetailsComplete() {
-//        _navigateToSelectedProperty.value = null
-//    }
 }

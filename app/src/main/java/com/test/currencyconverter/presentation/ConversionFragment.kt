@@ -12,6 +12,7 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import com.test.currencyconverter.SharedPreferencesManager
 import com.test.currencyconverter.databinding.FragmentConversionBinding
 
 
@@ -20,6 +21,7 @@ class ConversionFragment : Fragment() {
     private var isSwitching: Boolean = false
     private lateinit var adapter: ArrayAdapter<String>
     private lateinit var binding: FragmentConversionBinding
+    private lateinit var sharedPreferences: SharedPreferencesManager
     private val viewModel: SymbolsViewModel by lazy {
         ViewModelProvider(this)[SymbolsViewModel::class.java]
     }
@@ -27,6 +29,7 @@ class ConversionFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
+        sharedPreferences = SharedPreferencesManager(requireContext())
         binding = FragmentConversionBinding.inflate(inflater)
         binding.lifecycleOwner = this
         binding.viewModel = viewModel
@@ -124,20 +127,20 @@ class ConversionFragment : Fragment() {
                 val convertRate = (1 / fromSymbolRate!!) * toSymbolRate!!
                 val convertResult = fromValueAsDouble * convertRate
                 binding.toValue.setText(String.format("%.3f", convertResult))
+                sharedPreferences.saveConversion(fromValueAsDouble, fromSymbol, toSymbol, convertResult )
             } else {
                 binding.toValue.setText(binding.fromValue.text.toString())
             }
         }
 
-        //TODO: comment this temporarly to not convert every time
-//        viewModel.getCombinedResult().observe(this) {
-//            //convert current value
-//            val from = adapter.getItem(it.first)
-//            val to = adapter.getItem(it.second)
-//            viewModel.convert(
-//                "$from,$to"
-//            )
-//        }
+        viewModel.getCombinedResult().observe(this) {
+            //convert current value
+            val from = adapter.getItem(it.first)
+            val to = adapter.getItem(it.second)
+            viewModel.convert(
+                "$from,$to"
+            )
+        }
 
         viewModel.error.observe(this) {
             Toast.makeText(context, it, Toast.LENGTH_LONG).show()
